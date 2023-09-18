@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  wiki_en:
+    image: my.gitlab.com:12345/wiki/wiki_container:latest
+    container_name: wiki_en
+    ports:
+      - "127.0.0.1:7777:8888"
+    restart: unless-stopped
+    volumes:
+      - /opt/wiki/wiki-en/public:/wiki/public
+
+  wiki_fr:
+    image: my.gitlab.com:12345/wiki/wiki_container:latest
+    container_name: wiki_fr
+    ports:
+      - "127.0.0.1:7778:8888"
+    restart: unless-stopped
+    volumes:
+      - /opt/wiki/wiki-fr/public:/wiki/public
+
+  wiki_de:
+    image: my.gitlab.com:12345/wiki/wiki_container:latest
+    container_name: wiki_de
+    ports:
+      - "127.0.0.1:7779:8888"
+    restart: unless-stopped
+    volumes:
+      - /opt/wiki/wiki-de/public:/wiki/public
+
+  ingress:
+    image: nginx:stable-alpine
+    container_name: ingress
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      - /opt/wiki/docker_ingress:/etc/nginx/conf.d
